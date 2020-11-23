@@ -47,7 +47,7 @@ module.exports= {
 		});
 	},
 	update:function(user, callback){
-		var sql = "Update user set Name = '"+user.name+"',Email = '"+user.email+"',ContactNO = '"+user.contactno+"',Address = '"+user.address+"',Password = '"+user.password+"' where ID = '"+user.id+"'";
+		var sql = "Update user set Name = '"+user.name+"',Email = '"+user.email+"',ContactNO = '"+user.contactno+"',Address = '"+user.address+"',Password = '"+user.password+"'where ID = '"+user.id+"'";
 		db.execute(sql, function(status){
 			if(status){
 				callback(true);
@@ -105,8 +105,8 @@ module.exports= {
 			}
 		});
 	},
-	getByMsg: function(callback){
-		var sql = "select Message,SendFrom,Date from mTamsg";
+	getByMsg: function(user,callback){
+		var sql = "select Message,SendFrom,Date from mTamsg where SendTo='"+user+"' ";
 		db.getResults(sql, function(result){
 			callback(result);
 		});

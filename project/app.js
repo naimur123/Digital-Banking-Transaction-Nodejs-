@@ -3,6 +3,8 @@ const bodyParser 		= require('body-parser');
 const exSession 		= require('express-session');
 const cookieParser 		= require('cookie-parser');
 const app				= express();
+const path              = require('path');
+
 
 
 // const adminlogin				= require('./controllers/admin/adminlogin');
@@ -20,12 +22,14 @@ const port				= 3000;
 
 //configuration
 app.set('view engine', 'ejs');
-app.engine('html', require('ejs').renderFile);
+
 
 
 
 
 //middleware
+app.use(express.static(path.join(__dirname+'/uploads'))); 
+
 app.use(express.static(__dirname + '/views'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/abc', express.static('assets'));

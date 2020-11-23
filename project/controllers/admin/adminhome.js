@@ -13,7 +13,8 @@ router.get('*',  (req, res, next)=>{
 	}		
 });
 router.get('/', (req, res)=>{
-	res.render('admin/adminhome/adminhome');	
+	s=req.cookies['username'];
+	res.render('admin/adminhome/adminhome',{name: s});	
 })
 router.get('/managerlist', (req, res)=>{
 	var user="manager";
@@ -84,8 +85,9 @@ router.post('/sendmsg', (req, res)=>{
 
 })
 router.get('/receivedmsg', (req, res)=>{
-  
-	userModel.getByMsg(function(results)
+   var user=req.cookies['username'];
+   console.log(user);
+	userModel.getByMsg(user,function(results)
 	{
 		res.render('admin/adminhome/receivedmsg', {users: results});
 		
@@ -106,16 +108,17 @@ router.get('/transaction', (req, res)=>{
 	var user= req.cookies['username']
 	console.log(user)
     userModel.transaction(user, (result) => {
-		res.send(JSON.stringify(result));
-	
-  });
+		res.json(result)
+	})
+
+
 })
 router.get('/salarylist', (req, res)=>{
 	
 	var user= req.cookies['username']
 	console.log(user)
     userModel.salarylist(user, (result) => {
-		res.json(result)
+		res.send(result)
 	})
 })
 

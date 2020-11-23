@@ -13,9 +13,7 @@
 <body>
 
 <div class="container">
-  <h2>Add Member</h2>
- 
-  <form method="POST">
+ <form method="POST">
     <div class="form-group">
       <label for="usr">Name:</label>
       <input type="text" class="form-control" id="usr" name="name" value="<%= user.Name %>">
@@ -35,7 +33,10 @@
     <div class="form-group">
       <label for="pwd">Password:</label>
       <input type="password" class="form-control" id="pwd" name="password" value="<%= user.Password %>">
-	</div>
+  </div>
+
+  
+  
 	
 	<button type="submit" class="btn btn-primary">Submit</button><br>
 	<a href="/adminhome/profile">Cancel</a>

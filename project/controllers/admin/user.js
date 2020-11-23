@@ -18,25 +18,23 @@ router.get('/createmanager', (req, res)=>{
 router.post('/createmanager',[
     check('email', 'Email length should be 10 to 30 characters') 
     .isEmail().isLength({ min: 10, max: 30 }), 
-check('name', 'Name length should be 10 to 20 characters') 
-    .isLength({ min: 5, max: 20 }), 
-check('contactno', 'Mobile number should contains 11 digits') 
+     check('name', 'Name length should be 5 to 20 characters').matches(/^[A-Za-z\s]+$/)
+    .isLength({ min: 5}), 
+    check('contactno', 'Mobile number should contains 11 digits') 
     .isLength({ min: 11, max: 15}),
      
-check('type', 'User Type Must be admin').equals("manager").isLength({ min: 5, max: 30 }),
+   check('type', 'User Type Must be manager').equals("manager").isLength({ min: 5, max: 30 }),
    
-check('password', 'Password length should be 5 to 10 characters') 
+   check('password', 'Password length should be 5 to 10 characters') 
     .isLength({ min: 5, max: 10 }) 
 ], (req, res)=>{
 
-    const errors = validationResult(req); 
-    
+    const errors = validationResult(req);
+
     if (!errors.isEmpty()) { 
        
             res.json(errors) 
-     
-       
-    } 
+     } 
   
     // If no error occurs, then this 
     // block of code will run 
@@ -80,7 +78,8 @@ check('password', 'Password length should be 5 to 10 characters')
                 }
             })
            
-    } 
+    
+}
 });
 router.get('/editmanager/:id', (req, res)=>{
     var user = {
@@ -96,8 +95,7 @@ router.post('/editmanager/:id', (req, res)=>{
         ename: req.body.ename,
         cname: req.body.cname,
         contactno: req.body.contactno,
-        username: req.body.username,
-        file:     req.files.file
+        username: req.body.username
 	};
     userModel.update(user, function(status){
 
@@ -150,8 +148,8 @@ router.post('/addadmin', [
     
     check('email', 'Email length should be 10 to 30 characters') 
                     .isEmail().isLength({ min: 10, max: 30 }), 
-    check('name', 'Name length should be 10 to 20 characters') 
-                    .isLength({ min: 5, max: 20 }), 
+    check('name', 'Name length should be 5 to 20 characters').matches(/^[A-Za-z\s]+$/)
+                    .isLength({ min: 5}), 
     check('contactno', 'Mobile number should contains 11 digits') 
                     .isLength({ min: 11, max: 15}),
                      
@@ -161,7 +159,6 @@ router.post('/addadmin', [
                     .isLength({ min: 5, max: 10 }) 
 ], (req, res)=>{
     const errors = validationResult(req); 
-    
     if (!errors.isEmpty()) { 
        
             res.json(errors) 
@@ -210,8 +207,8 @@ router.post('/addadmin', [
                     });    
                 }
             })
-           
-    } 
+
+} 
 
  
 });
@@ -285,27 +282,37 @@ router.get('/editprofile/:id', (req, res)=>{
 });
 
 router.post('/editprofile/:id', (req, res)=>{
-    var user = {
-        id: req.params.id,
-        name: req.body.name,
-        email: req.body.email,
-        contactno: req.body.contactno,
-        address: req.body.address,
-        password: req.body.password
-
-	};
-    userModel.update(user, function(status){
-
-        if(status){
-    
-            console.log("Updated");
-            res.redirect('/adminhome/profile');
+   
+                var user = {
+                    id: req.params.id,
+                    name: req.body.name,
+                    email: req.body.email,
+                    contactno: req.body.contactno,
+                    address: req.body.address,
+                    password: req.body.password,
+                    file: req.file
+            
+                };
+                userModel.update(user, function(status){
+            
+                    if(status){
+                
+                        console.log("Updated");
+                        res.redirect('/adminhome/profile');
+                      
+                    }
+                    else{
+                          console.log("Error");  
+                    }
+                });
           
-        }
-        else{
-              console.log("Error");  
-        }
-});
 })
+        
+
+               
+ 
+    
+   
+
 
 module.exports = router;
